@@ -76,6 +76,11 @@ kubeadm init \
 # 7. Kubectl erişimi için config ayarları
 ########################################
 
+# 🔹 Kubectl config hem ubuntu hem root için ayarla
+mkdir -p /home/ubuntu/.kube
+cp -i /etc/kubernetes/admin.conf /home/ubuntu/.kube/config
+chown ubuntu:ubuntu /home/ubuntu/.kube/config
+
 mkdir -p /home/ubuntu/.kube
 cp /etc/kubernetes/admin.conf /home/ubuntu/.kube/config
 chown ubuntu:ubuntu /home/ubuntu/.kube/config
@@ -85,6 +90,8 @@ export KUBECONFIG=/home/ubuntu/.kube/config
 
 # Flannel CNI kurulumu
 sudo -u ubuntu KUBECONFIG=/home/ubuntu/.kube/config kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+
+sleep 20
 
 # Join komutunu sakla
 kubeadm token create --print-join-command > /root/kubeadm_join_cmd.sh
