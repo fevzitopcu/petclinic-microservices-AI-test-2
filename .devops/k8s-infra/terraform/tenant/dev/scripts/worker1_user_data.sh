@@ -2,7 +2,7 @@
 set -euxo pipefail
 
 # 1. Hostname
-hostnamectl set-hostname k8s-node
+hostnamectl set-hostname k8s-worker-1
 
 # 2. Kernel modülleri ve sysctl ayarları
 modprobe overlay

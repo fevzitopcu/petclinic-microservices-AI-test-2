@@ -1,5 +1,4 @@
 
-
 resource "aws_instance" "this" {
   ami                         = var.ami
   instance_type               = var.instance_type
@@ -8,21 +7,21 @@ resource "aws_instance" "this" {
   key_name                    = var.key_name
   user_data                   = (var.user_data) != null ? var.user_data : null
   iam_instance_profile        = aws_iam_instance_profile.this.name
-  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
+  vpc_security_group_ids      = [var.security_group_ids]
 
   root_block_device {
-    volume_size = 100         # Örneğin 30 GiB
-    volume_type = "gp3"      # gp2, gp3, io1, vs.
+    volume_size           = 100   # Örneğin 30 GiB
+    volume_type           = "gp3" # gp2, gp3, io1, vs.
     delete_on_termination = true
   }
 
   tags = {
-    Name = "${var.name}-ec2"
-    name = var.NodeName
-    Project= var.Project
-    Role= var.NodeRole
-    Id= var.NodeId
-    environment= var.environment
+    Name        = "${var.name}-ec2"
+    name        = var.NodeName
+    Project     = var.Project
+    Role        = var.NodeRole
+    Id          = var.NodeId
+    environment = var.environment
   }
 }
 
@@ -51,32 +50,5 @@ resource "aws_iam_role_policy_attachment" "ec2_attach_policy" {
 resource "aws_iam_instance_profile" "this" {
   name = "${var.name}-ec2-profile"
   role = aws_iam_role.ec2_instance_role.name
-}
-
-
-resource "aws_security_group" "ec2_sg" {
-  vpc_id = var.vpc_id
-  name   = "${var.name}-sg"
-  tags = {
-    Name = "${var.name}-sg"
-  }
-  dynamic "ingress" {
-    for_each = var.ports
-    iterator = port
-    content {
-      from_port   = port.value
-      to_port     = port.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
-
-  egress {
-    from_port   = 0
-    protocol    = "-1"
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
 }
 

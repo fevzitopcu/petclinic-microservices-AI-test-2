@@ -8,5 +8,4 @@ output "public_ip" {
 
 output "public_DNSName" {
   value = aws_instance.this.public_dns
-
 }

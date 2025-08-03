@@ -5,4 +5,11 @@ variable "key_name" {}
 variable "name" {}
 variable "user_data" {}
 variable "vpc_id" {}
-variable "ports" {}
+
+variable  "NodeName" {}
+variable  "Project" {}
+variable  "NodeRole" {}
+variable  "NodeId" {}
+variable  "environment" {}
+
+variable "security_group_ids" {}
