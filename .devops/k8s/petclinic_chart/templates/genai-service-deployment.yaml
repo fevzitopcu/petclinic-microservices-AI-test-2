@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -o petclinic_chart/templates
+    kompose.version: 1.36.0 (ae2a39403)
+  labels:
+    io.kompose.service: genai-service
+  name: genai-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: genai-service
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o petclinic_chart/templates
+        kompose.version: 1.36.0 (ae2a39403)
+      labels:
+        io.kompose.service: genai-service
+    spec:
+      containers:
+        - image: '{{ .Values.IMAGE_TAG_GENAI_SERVICE }}'
+          name: genai-service
+          ports:
+            - containerPort: 8084
+              protocol: TCP
+      initContainers:
+        - name: init-discovery-server
+          image: busybox
+          command: ['sh', '-c', 'until nc -z discovery-server:8761; do echo waiting for discovery-server; sleep 2; done;']
+      restartPolicy: Always
