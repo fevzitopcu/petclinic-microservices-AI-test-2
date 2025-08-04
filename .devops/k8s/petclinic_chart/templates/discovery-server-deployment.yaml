@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: kompose convert -f docker-compose.yml -o petclinic_chart/templates
-    kompose.image-pull-secret: register_secret
+    kompose.image-pull-secret: regcred
     kompose.version: 1.36.0 (ae2a39403)
   labels:
     io.kompose.service: discovery-server
@@ -17,7 +17,7 @@ spec:
     metadata:
       annotations:
         kompose.cmd: kompose convert -f docker-compose.yml -o petclinic_chart/templates
-        kompose.image-pull-secret: register_secret
+        kompose.image-pull-secret: regcred
         kompose.version: 1.36.0 (ae2a39403)
       labels:
         io.kompose.service: discovery-server
@@ -33,5 +33,5 @@ spec:
           image: busybox
           command: ['sh', '-c', 'until nc -z config-server:8888; do echo waiting for config-server; sleep 2; done;']
       imagePullSecrets:
-        - name: register_secret
+        - name: regcred
       restartPolicy: Always
