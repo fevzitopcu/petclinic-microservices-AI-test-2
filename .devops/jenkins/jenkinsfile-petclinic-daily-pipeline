@@ -66,14 +66,14 @@ pipeline {
         stage('Docker Image Build Adimi') {
             steps {
                 echo 'Dev Ortam Imajlar Olusturuluyor'
-                sh ". ./jenkins/pipeline-dev-build-tagged-docker-images-for-ecr.sh"
+                sh ". ./.devops/jenkins/pipeline-dev-build-tagged-docker-images-for-ecr.sh"
                 sh 'docker image ls'
             }
         }
         stage('Docker Image ECR Repoya Push Adimi') {
             steps {
                 echo "${APP_NAME} Docker Imajlar ECR Repoya Gonderiliyor "
-                sh ". ./jenkins/pipeline-dev-push-docker-images-to-ecr.sh"
+                sh ". ./.devops/jenkins/pipeline-dev-push-docker-images-to-ecr.sh"
             }
         }
 /*        stage('Create Key Pair for Ansible') {
