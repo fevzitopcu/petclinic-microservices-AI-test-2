@@ -12,6 +12,17 @@
     copy: 
       src: $JENKINS_HOME/.docker/config.json
       dest: /home/ubuntu/.docker/config.json
+
+# HELM kurulumu
+  - name: Install Helm
+    become: yes
+    shell: |
+      curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      args:
+        executable: /bin/bash
+
+
+
 #  /home/ubuntu/.docker/config.json içindeki crendial bilgilerini kullanarak `regcred` adında bir secret oluştruyor.` regcred` secret ını kullanarak S3 Helm repoya bağlanıp helm charları çekiyor.
   - name: deploy petclinic application
     shell: |
