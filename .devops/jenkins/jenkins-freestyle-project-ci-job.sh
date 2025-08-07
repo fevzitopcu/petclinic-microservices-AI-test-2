@@ -15,4 +15,4 @@
                 -v "$(pwd)":/application \
                 -w /application \
                 maven:3.9.6-eclipse-temurin-17 \
-                mvn clean test
+                mvn clean package
