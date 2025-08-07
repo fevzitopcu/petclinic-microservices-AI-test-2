@@ -86,9 +86,11 @@ pipeline {
 
         stage('K8s Test Ortaminin Kurulmasi') {
             steps {
+                script {
+                    env.ANSIBLE_PRIVATE_KEY_FILE = "${WORKSPACE}/${ANS_KEYPAIR}"
+                }
                 echo 'Creating QA Automation Infrastructure for Dev Environment'
                 sh """
-                    
                     sed -i "s/aws_key_pair.generated_key.key_name/\\\"${ANS_KEYPAIR}\\\"/g" .devops/k8s-infra/terraform/tenant/dev/main.tf
                     sed -i "s|devops-keypem-ansible.pem|${ANS_KEYPAIR}|g" .devops/k8s-infra/terraform/tenant/dev/ansible/inventory.ini
                     cd .devops/k8s-infra/terraform
