@@ -162,7 +162,7 @@ pipeline {
         stage('OTOMASYON TESTLERI'){
             steps {
                 echo "DEV ORTAMI ICIN FONKSIYONEL TESTLER CALISIYOR"
-                sh "sleep 600" 
+                sh "sleep 300" 
             }
         }
  }
