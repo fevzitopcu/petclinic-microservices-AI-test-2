@@ -14,12 +14,12 @@
       dest: /home/ubuntu/.docker/config.json
 
 # HELM kurulumu
-  - name: Install Helm
-    become: yes
-    shell: |
-      curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-      args:
-        executable: /bin/bash
+- name: Install Helm
+  shell: |
+    curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  args:
+    executable: /bin/bash
+  creates: /usr/local/bin/helm
 
 
 
