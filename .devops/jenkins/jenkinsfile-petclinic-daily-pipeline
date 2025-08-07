@@ -89,7 +89,7 @@ pipeline {
                 echo 'Creating QA Automation Infrastructure for Dev Environment'
                 sh """
                     
-                    sed -i "s/petclinic-capstone-microservice-dev-20.key/\\\"ANS_KEYPAIR\\\"/g" .devops/k8s-infra/terraform/tenant/dev/main.tf
+                    sed -i "s/aws_key_pair.generated_key.key_name/\\\"${ANS_KEYPAIR}\\\"/g" .devops/k8s-infra/terraform/tenant/dev/main.tf
                     cd .devops/k8s-infra/terraform
                     terraform -chdir=tenant/dev init
                     terraform -chdir=tenant/dev apply -auto-approve -no-color
