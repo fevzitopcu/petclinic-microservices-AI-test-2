@@ -121,7 +121,9 @@ pipeline {
                 sh "envsubst < .devops/k8s/petclinic_chart/values-template.yaml > .devops/k8s/petclinic_chart/values.yaml"
 
                 // Chart.yaml içinde versiyon numarasını BUILD_NUMBER ile değiştir
-                sh "sed -i \"s/^version:.*/version: ${BUILD_NUMBER}/\" .devops/k8s/petclinic_chart/Chart.yaml"
+                // sh "sed -i \"s/^version:.*/version: ${BUILD_NUMBER}/\" .devops/k8s/petclinic_chart/Chart.yaml"
+
+                sh "sed -i s/HELM_VERSION/${BUILD_NUMBER}/ k8s/petclinic_chart/Chart.yaml"
 
                 // Helm repo ekle
                 sh "helm repo add stable-petclinic s3://petclinic-charts-fevzitopcu/stable/myapp/"
@@ -162,7 +164,8 @@ pipeline {
         stage('OTOMASYON TESTLERI'){
             steps {
                 echo "DEV ORTAMI ICIN FONKSIYONEL TESTLER CALISIYOR"
-                sh "sleep 1800" 
+                // 5 dk boyunca uyu
+                sh "sleep 300" 
             }
         }
  }

@@ -14,3 +14,6 @@ spec:
       targetPort: 3306
   selector:
     io.kompose.service: mysql-server
+# spec:
+#   type: ExternalName
+#   externalName: petclinic.cbanmzptkrzf.us-east-1.rds.amazonaws.com
