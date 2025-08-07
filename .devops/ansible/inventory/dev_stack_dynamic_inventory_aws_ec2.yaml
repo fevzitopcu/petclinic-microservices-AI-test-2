@@ -5,10 +5,11 @@ filters:
   tag:Project: tera-kube-ans
   tag:environment: dev
   instance-state-name: running
+include_tags: true
 keyed_groups:
   - key: tags['Project']
     prefix: 'all_instances'
-  - key: tags['NodeRole']
+  - key: tags['Role']
     prefix: 'role'
 hostnames:
   - "ip-address"
