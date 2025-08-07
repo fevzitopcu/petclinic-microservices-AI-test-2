@@ -14,13 +14,16 @@
       dest: /home/ubuntu/.docker/config.json
 
 # HELM kurulumu
+  - name: Check if helm exists
+    stat:
+      path: /usr/local/bin/helm
+    register: helm_stat
+
   - name: Install Helm
-    shell: |
-      curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    shell: curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
     args:
       executable: /bin/bash
-    creates: /usr/local/bin/helm
-
+    when: not helm_stat.stat.exists
 
 
 #  /home/ubuntu/.docker/config.json içindeki crendial bilgilerini kullanarak `regcred` adında bir secret oluştruyor.` regcred` secret ını kullanarak S3 Helm repoya bağlanıp helm charları çekiyor.
