@@ -6,7 +6,7 @@ pipeline {
         AWS_ACCOUNT_ID=sh(script:'aws sts get-caller-identity --query Account --output text', returnStdout:true).trim()
         AWS_REGION="us-east-1"
         ECR_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-        /*ANS_KEYPAIR="petclinic-${APP_NAME}-dev-${BUILD_NUMBER}.key" */
+        ANS_KEYPAIR="petclinic-${APP_NAME}-dev-${BUILD_NUMBER}.key"
         ANSIBLE_PRIVATE_KEY_FILE="${WORKSPACE}/${ANS_KEYPAIR}"
         ANSIBLE_HOST_KEY_CHECKING="False"
     }
@@ -76,20 +76,21 @@ pipeline {
                 sh ". ./.devops/jenkins/pipeline-dev-push-docker-images-to-ecr.sh"
             }
         }
-/*        stage('Create Key Pair for Ansible') {
+        stage('Create Key Pair for Ansible') {
             steps {
                 echo "Creating Key Pair for ${APP_NAME} App"
                 sh "aws ec2 create-key-pair --region ${AWS_REGION} --key-name ${ANS_KEYPAIR} --query KeyMaterial --output text > ${ANS_KEYPAIR}"
                 sh "chmod 400 ${ANS_KEYPAIR}"
             }
-        } */
+        }
 
         stage('K8s Test Ortaminin Kurulmasi') {
             steps {
                 echo 'Creating QA Automation Infrastructure for Dev Environment'
                 sh """
-                    cd .devops/k8s-infra/terraform
                     
+                    sed -i "s/aws_key_pair.generated_key.key_name/$ANS_KEYPAIR/g" .devops/k8s-infra/terraform/tenant/dev/main.tf
+                    cd .devops/k8s-infra/terraform
                     terraform -chdir=tenant/dev init
                     terraform -chdir=tenant/dev apply -auto-approve -no-color
                 """
