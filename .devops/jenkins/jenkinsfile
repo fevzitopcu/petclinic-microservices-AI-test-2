@@ -27,7 +27,7 @@ pipeline {
         stage('Package Application') {
             steps {
                 echo 'Maven ile Uygulama .jar Olarak Paketleniyor'
-                sh ". ./jenkins/pipeline-dev-package-with-maven-container.sh"
+                sh ". ./.devops/jenkins/pipeline-dev-package-with-maven-container.sh"
             }
         }
         stage('Docker Images TAG Hazirlama') {
