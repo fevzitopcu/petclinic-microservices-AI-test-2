@@ -50,7 +50,7 @@ pipeline {
                     env.IMAGE_TAG_DISCOVERY_SERVER="${ECR_REGISTRY}/${APP_REPO_NAME}:discovery-server-v${VERSION}-b${BUILD_NUMBER}"
 
                     VERSION=sh(script:'. ${WORKSPACE}/spring-petclinic-genai-service/target/maven-archiver/pom.properties && echo $version', returnStdout: true).trim()
-                    env.IMAGE_GENAI_SERVICE="${ECR_REGISTRY}/${APP_REPO_NAME}:genai-service-v${VERSION}-b${BUILD_NUMBER}"
+                    env.IMAGE_TAG_GENAI_SERVICE="${ECR_REGISTRY}/${APP_REPO_NAME}:genai-service-v${VERSION}-b${BUILD_NUMBER}"
 
                     VERSION=sh(script:'. ${WORKSPACE}/spring-petclinic-vets-service/target/maven-archiver/pom.properties && echo $version', returnStdout: true).trim()
                     env.IMAGE_TAG_VETS_SERVICE="${ECR_REGISTRY}/${APP_REPO_NAME}:vets-service-v${VERSION}-b${BUILD_NUMBER}"
