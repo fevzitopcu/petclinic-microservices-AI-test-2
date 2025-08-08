@@ -1,6 +1,14 @@
 
 echo 'Deploying App on EKS K8s Cluster'
 
+# Helm S3 plugin kontrolü
+if ! helm plugin list | grep -q 's3'; then
+    echo "Helm S3 plugin yükleniyor..."
+    helm plugin install https://github.com/hypnoglow/helm-s3.git
+else
+    echo "Helm S3 plugin zaten yüklü."
+fi
+
 export KUBECONFIG=/var/lib/jenkins/.kube/config
 aws eks update-kubeconfig --region us-east-1 --name petclinic-cluster --kubeconfig $KUBECONFIG
 
