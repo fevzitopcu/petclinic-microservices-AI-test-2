@@ -48,3 +48,14 @@ spring:
     activate:
       on-profile: docker
     import: configserver:http://config-server:8888
+
+---
+
+zuul:
+  prefix: /api
+  ignoredServices: '*'
+  routes:
+    vets-service: /vet/**
+    visits-service: /visit/**
+    customers-service: /customer/**
+    api-gateway: /gateway/**
