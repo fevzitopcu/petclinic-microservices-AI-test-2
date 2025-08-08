@@ -16,13 +16,19 @@ helm package .devops/k8s/petclinic_chart
 
 AWS_REGION=$AWS_REGION helm s3 push --force petclinic_chart-${BUILD_NUMBER}.tgz stable-petclinic
 
+# kubectl create ns petclinic-prod || echo "namespace petclinic-prod already exists"
+# kubectl delete secret regcred -n petclinic-prod || echo "there is no regcred secret in petclinic-prod namespace"
+
+# kubectl create secret generic regcred -n petclinic-prod \
+#     --from-file=.dockerconfigjson=/var/lib/jenkins/.docker/config.json \
+#     --type=kubernetes.io/dockerconfigjson
+
+kubectl get ns
 kubectl create ns petclinic-prod || echo "namespace petclinic-prod already exists"
 kubectl delete secret regcred -n petclinic-prod || echo "there is no regcred secret in petclinic-prod namespace"
-
 kubectl create secret generic regcred -n petclinic-prod \
     --from-file=.dockerconfigjson=/var/lib/jenkins/.docker/config.json \
     --type=kubernetes.io/dockerconfigjson
-
 
 AWS_REGION=$AWS_REGION helm repo update
 AWS_REGION=$AWS_REGION helm upgrade --install \
