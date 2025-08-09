@@ -30,10 +30,6 @@ spec:
         - name: init-discovery-server
           image: busybox
           command: ['sh', '-c', 'until nc -z discovery-server:8761; do echo waiting for discovery-server; sleep 2; done;']
-      initContainers:
-        - name: wait-for-mysql
-          image: busybox
-          command: ['sh', '-c', 'until nc -z mysql-server 3306; do echo waiting for mysql; sleep 2; done;']
       imagePullSecrets:
         - name: regcred
       restartPolicy: Always
