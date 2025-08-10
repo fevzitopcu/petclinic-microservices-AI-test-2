@@ -59,3 +59,11 @@ zuul:
     visits-service: /visit/**
     customers-service: /customer/**
     api-gateway: /gateway/**
+
+---
+
+eureka:
+  instance:
+    prefer-ip-address: false
+    hostname: api-gateway
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
